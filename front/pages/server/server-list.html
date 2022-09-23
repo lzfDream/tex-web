@@ -16,16 +16,16 @@
         <div class="layui-inline">
 
           <div class="layui-input-inline">
-            <input class="layui-input" placeholder="请输入应用名" autocomplete="off" name="app">
+            <div id="appSelect"></div>
           </div>
           <div class="layui-input-inline">
-            <input class="layui-input" placeholder="请输入服务名" autocomplete="off" name="server">
+            <div id="serverSelect"></div>
           </div>
           <div class="layui-input-inline">
-            <input class="layui-input" placeholder="请输入分区" autocomplete="off" name="division">
+            <div id="divisionSelect"></div>
           </div>
           <div class="layui-input-inline">
-            <input class="layui-input" placeholder="请输入节点" autocomplete="off" name="node">
+            <div id="nodeSelect"></div>
           </div>
 
           <div class="layui-input-inline">
@@ -43,6 +43,7 @@
 
   <!--js逻辑-->
   <script src="/lib/layui/layui.js"></script>
+  <script type="text/javascript" src="/lib/xm-select/xm-select.js"></script>
   <script>
     var taskNo;
     var editData;
@@ -54,7 +55,44 @@
       let form = layui.form;
       let okLayer = layui.okLayer;
       let dropdown = layui.dropdown;
+      let xmSelect = layui.xmSelect;
       okLoading.close();
+
+      let appSelect = xmSelect.render({
+        el: '#appSelect',
+        tips: 'app',
+        layVerType: 'tips',
+        toolbar: {
+          show: true,
+        },
+      });
+
+      let serverSelect = xmSelect.render({
+        el: '#serverSelect',
+        tips: 'server',
+        layVerType: 'tips',
+        toolbar: {
+          show: true,
+        },
+      });
+
+      let divisionSelect = xmSelect.render({
+        el: '#divisionSelect',
+        tips: 'division',
+        layVerType: 'tips',
+        toolbar: {
+          show: true,
+        },
+      });
+
+      let nodeSelect = xmSelect.render({
+        el: '#nodeSelect',
+        tips: 'node',
+        layVerType: 'tips',
+        toolbar: {
+          show: true,
+        },
+      });
 
       let serverTable = table.render({
         elem: "#tableId",
@@ -119,6 +157,31 @@
         ]]
       });
 
+      function reloadSearch() {
+        let dataBak = table.cache.tableId;
+        let allApp = new Set();
+        let allServer = new Set();
+        let allDivision = new Set();
+        let allNode = new Set();
+        for (const v of dataBak) {
+          allApp.add({ name: v.app, value: v.app });
+          allServer.add({ name: v.server, value: v.server });
+          allDivision.add({ name: v.division, value: v.division });
+          allNode.add({ name: v.node, value: v.node });
+        }
+        appSelect.update({
+          data: [...allApp]
+        });
+        serverSelect.update({
+          data: [...allServer]
+        });
+        divisionSelect.update({
+          data: [...allDivision]
+        });
+        nodeSelect.update({
+          data: [...allNode]
+        });
+      }
       function serverOperator(data, cmd) {
         let vItem = [{ "sApp": data.app, "sServer": data.server, "sDivision": data.division, "sNodeName": data.node, "sCommand": cmd }]
         let req = {
@@ -133,6 +196,7 @@
             area: ['80%', "80%"],
             end: function () {
               serverTable.reload();
+              reloadSearch();
             }
           }
           layer.open(param);
@@ -158,6 +222,7 @@
         editData.copy = true;
         okLayer.open("增加服务", "./server-add.html", "90%", "90%", null, function () {
           serverTable.reload();
+          reloadSearch();
         });
       }
 
@@ -256,6 +321,7 @@
             curr: 1,
           }
         });
+        reloadSearch();
         return false;
       });
 
@@ -295,6 +361,7 @@
             area: ['80%', "80%"],
             end: function () {
               serverTable.reload();
+              reloadSearch();
             }
           }
           layer.open(param);
@@ -306,6 +373,7 @@
       function add() {
         okLayer.open("增加服务", "./server-add.html", "90%", "90%", null, function () {
           serverTable.reload();
+          reloadSearch();
         });
       }
 
@@ -337,6 +405,7 @@
         editData = data;
         okLayer.open("编辑服务", "./server-edit.html", "90%", "90%", null, function () {
           serverTable.reload();
+          reloadSearch();
         });
       }
     });
