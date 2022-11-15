@@ -16,7 +16,7 @@
           <li class="layui-this">简体中文(默认)</li>
           <li>英语</li>
         </ul>
-        <div class="layui-tab-content">
+        <div class="layui-tab-content" id="lang_content">
           <div class="layui-tab-item layui-show">
             <div class="layui-form-item">
               <label class="layui-form-label">标题</label>
@@ -393,7 +393,7 @@
       }).fail(function (error) {
         console.log(error);
       });
-      
+
       let uploadFile = upload.render({
         elem: '#file',
         url: '/api/gm/mail/upload',
@@ -496,6 +496,7 @@
         }
         return true
       }
+      console.log($("#lang-content"));
 
       //监听提交
       var mailparam;
