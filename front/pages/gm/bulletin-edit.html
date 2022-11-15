@@ -120,11 +120,11 @@
   <script>
     zhCNeditor = getDefaultEditor('#zh-CN');
     ENeditor = getDefaultEditor('#en');
-    jaeditor = getDefaultEditor('#ja');
+    JAEditor = getDefaultEditor('#ja');
 
     function getLangEditor(lang) {
         if (lang == "en") return ENeditor;
-        else if (lang == "ja") return jaeditor;
+        else if (lang == "ja") return JAEditor;
         else return zhCNeditor;
     }
 
@@ -150,10 +150,10 @@
         $(ENeditor.toolbarSelector+"Html").val(ouputStr);
       }
 
-      jaeditor.config.onchange = function (newHtml) {
-        let jsonData = jaeditor.txt.getJSON();
+      JAEditor.config.onchange = function (newHtml) {
+        let jsonData = JAEditor.txt.getJSON();
         let ouputStr = ExecuteJsonData(jsonData);
-        $(jaeditor.toolbarSelector+"Html").val(ouputStr);
+        $(JAEditor.toolbarSelector+"Html").val(ouputStr);
       }
 
       $("select[name='iDisplay']").val(parent.editdata.iDisplay);

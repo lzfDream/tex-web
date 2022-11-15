@@ -121,11 +121,11 @@
   <script>
     zhCNeditor = getDefaultEditor('#zh-CN');
     ENeditor = getDefaultEditor('#en');
-    jaeditor = getDefaultEditor('#ja');
+    JAEditor = getDefaultEditor('#ja');
 
     function getLangEditor(lang) {
         if (lang == "en") return ENeditor;
-        else if (lang == "ja") return jaeditor;
+        else if (lang == "ja") return JAEditor;
         else return zhCNeditor;
     }
 
@@ -144,22 +144,22 @@
         elem: "#iEndTime", type: "datetime"
       });
 
-      jaeditor.config.onchange = function (newHtml) {
-        let jsonData = jaeditor.txt.getJSON();
-        let ouputStr = ExecuteJsonData(jsonData);
-        $(jaeditor.toolbarSelector+"Html").val(ouputStr);
+      JAEditor.config.onchange = function (newHtml) {
+        let jsonData = JAEditor.txt.getJSON();
+        let outputStr = ExecuteJsonData(jsonData);
+        $(JAEditor.toolbarSelector+"Html").val(outputStr);
       }
 
       zhCNeditor.config.onchange = function (newHtml) {
         let jsonData = zhCNeditor.txt.getJSON();
-        let ouputStr = ExecuteJsonData(jsonData);
-        $(zhCNeditor.toolbarSelector+"Html").val(ouputStr);
+        let outputStr = ExecuteJsonData(jsonData);
+        $(zhCNeditor.toolbarSelector+"Html").val(outputStr);
       }
 
       ENeditor.config.onchange = function (newHtml) {
         let jsonData = ENeditor.txt.getJSON();
-        let ouputStr = ExecuteJsonData(jsonData);
-        $(ENeditor.toolbarSelector+"Html").val(ouputStr);
+        let outputStr = ExecuteJsonData(jsonData);
+        $(ENeditor.toolbarSelector+"Html").val(outputStr);
       }
 
       //监听提交
@@ -169,7 +169,7 @@
           return false;
         }
 
-        let mlang = {};
+        let mLang = {};
         let langs = ["en", "zh-CN", "ja"];
         for (let i=0; i < langs.length; ++i) {
           let lang = langs[i];
@@ -181,7 +181,7 @@
             data.field.sContent = content;
             data.field.sHtmlContent = htmlContent;
           } else {
-            mlang[lang] = {"sTitle": title, "sContent": content, "sHtmlContent": htmlContent};
+            mLang[lang] = {"sTitle": title, "sContent": content, "sHtmlContent": htmlContent};
           }
         }
 
@@ -190,9 +190,9 @@
           return false;
         }
 
-        if (!checkLang(mlang)) {
+        if (!checkLang(mLang)) {
           okLayer.confirm('除了默认语言还有语言未填,是否继续提交?', function(index) {
-            data.field.sLangContent = okUtils.jsonToString(mlang);
+            data.field.sLangContent = okUtils.jsonToString(mLang);
             okUtils.ajax("/api/gm/bulletin/add", "post", data.field, true).done(function (response) {
               okLayer.greenTickMsg(response.data, function () {
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
@@ -205,7 +205,7 @@
           return false;
         }
 
-        data.field.sLangContent = okUtils.jsonToString(mlang);
+        data.field.sLangContent = okUtils.jsonToString(mLang);
         okUtils.ajax("/api/gm/bulletin/add", "post", data.field, true).done(function (response) {
           okLayer.greenTickMsg(response.data, function () {
             parent.layer.close(parent.layer.getFrameIndex(window.name));
