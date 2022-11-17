@@ -173,7 +173,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">默认语言</label>
         <div class="layui-input-block">
-          <select name="sDefaultLang">
+          <select id = "sDefaultLang" name="sDefaultLang">
             <option value="ja">日语</option>
             <option value="en">英语</option>
             <option value="zh-TW">繁中</option>
@@ -615,7 +615,7 @@
         for (let i=0; i < langs.length; ++i) {
           let lang = langs[i];
           let title = $('#'+lang+'Title').val();
-          let content = $('#'+lang+'Html').val();
+          let content = $('#'+lang+'Content').val();
           if (lang == $('#sDefaultLang').val()) {
             defTitle = title;
             defContent = content;
