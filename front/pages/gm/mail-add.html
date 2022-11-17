@@ -657,6 +657,10 @@
       var mailparam;
       form.on('submit(test)', function (data) {
         let param = getParam();
+        if (param.p.sContent == '' || param.p.sTitle == '') {
+          okLayer.redCrossMsg('默认语言没有填写', function () { });
+          return false;
+        }
         if (!checkLang(param.lang)) {
           okLayer.confirm('除了默认语言还有语言未填,是否继续提交?', function (index) {
             okUtils.ajax("/api/gm/mail/testsend", "post", param.p, true).done(function (response) {

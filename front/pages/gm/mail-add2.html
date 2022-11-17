@@ -13,9 +13,9 @@
     <form class="layui-form layui-form-pane ok-form">
       <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
-          <li class="layui-this">中文</li>
+          <li>中文</li>
           <li>英语</li>
-          <li>日语</li>
+          <li class="layui-this">日语</li>
           <li>繁中</li>
           <li>韩语</li>
           <li>西班牙语</li>
@@ -338,6 +338,10 @@
       var mailparam;
       form.on('submit(test)', function (data) {
         let param = getParam();
+        if (param.p.sContent == '' || param.p.sTitle == '') {
+          okLayer.redCrossMsg('默认语言没有填写', function () { });
+          return false;
+        }
         if (!checkLang(param.lang)) {
           okLayer.confirm('除了默认语言还有语言未填,是否继续提交?', function (index) {
             okUtils.ajax("/api/gm/mail/testsend", "post", param.p, true).done(function (response) {
